@@ -299,8 +299,12 @@ FSM.prototype = {
 	},{
 		state:STATE.END,
 		eventHandlers: {[EVENT.END]: function() {
-			// 处理body
-			//this.setResult(this.getCurrentResult(),'a');
+			// 防止http最后没有两个换行符，或者只有一个，基本不会发生
+			if (this.Body === undefined){
+				if (this.getRawResult().length % 2 === 0)
+					this.setResult(this.getCurrentResult(),'a');
+				this.Body = '';
+			} 
 			return false;
 		}}
 	}]);
